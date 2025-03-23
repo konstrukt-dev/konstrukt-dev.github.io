@@ -6,9 +6,10 @@
 }
 
 :root {
-  --bg-color: #FFFFFF;
-  --text-color: #999;
-  --bg-tile: #f3f3f3;
+  --bg-color: #333333;
+  --text-color: #999999;
+  --bg-tile: #FFFFFF;
+  --tile: #FFFFFF;
 
   /* DARK MODE */
   --bg-dark: #292929;

@@ -15,11 +15,12 @@ defineProps({
 
 <style>
 .tile {
-  height: 400px;
-  background: #ededed;
+  background: var(--tile);
   padding: 10px;
-  margin: 4px;
+  margin: 0 1px 1px 0;
   background: var(--bg-tile);
+  border-radius: 5px;
+  aspect-ratio: 1 / 1;
 }
 
 [data-theme="dark"] {
