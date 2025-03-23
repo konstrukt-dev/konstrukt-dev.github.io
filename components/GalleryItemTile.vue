@@ -7,13 +7,16 @@ defineProps({
 </script>
 
 <template>
+  <div class="wrapper-tile">
   <div class="tile">
     <strong>{{ title }}</strong>: {{ description }}
     <NuxtLink :to="`/gallery/${id}`">project {{ id }}</NuxtLink>
   </div>
+  </div>
 </template>
 
 <style>
+
 .tile {
   background: var(--tile);
   padding: 10px;

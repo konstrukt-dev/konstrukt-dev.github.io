@@ -79,6 +79,7 @@ const getPosition = (id: number) => {
 </template>
 
 <style scoped>
+
 .item {
   cursor: pointer;
 }
@@ -86,6 +87,8 @@ const getPosition = (id: number) => {
 .grid-base {
   display: grid;
   grid-auto-rows: 1fr;
+  margin: 1px 0 0 1px;
+
 }
 
 .grid-3 {
