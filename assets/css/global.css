@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "IBM Plex Mono", monospace;
+  src: url('/fonts/IBMPlexMono-Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --bg-color: #FFFFFF;
+  --text-color: #999;
+  --bg-tile: #f3f3f3;
+
+  /* DARK MODE */
+  --bg-dark: #292929;
+  --text-color-dark: #ccc;
+  --bg-tile-dark: #363636;
+}
+
+[data-theme="dark"] {
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-color-dark);
+  }
+}
+
+/* LIGHT MODE */
+
+body {
+  font-family: "IBM Plex Mono", monospace;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+:disabled {
+  cursor: not-allowed;
+}
