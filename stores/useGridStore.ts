@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 
 export const useGridStore = defineStore('gridStore', () => {
+  const { $ua } = useNuxtApp()
   const route = useRoute();
   const router = useRouter();
   const columns = ref(3);
@@ -8,28 +9,10 @@ export const useGridStore = defineStore('gridStore', () => {
   const isGalleryViewGrid = ref(true);
   const isGridPanelVisible = ref(true);
 
-  const setGalleryColumns = (cols: number) => {
-    const defaultCols = 3;
+  const defaultColumnNumber = 3;
 
-    switch (true) {
-      case (cols === 0):
-       // isGalleryViewGrid.value = false;
-      //  setRouteQuery(0)
-        break;
-      case (cols > 0 && cols <= 5):
-        isGalleryViewGrid.value = true;
-        columns.value = cols;
-        setRouteQuery(cols)
-        break;
-      default:
-        isGalleryViewGrid.value = true;
-        columns.value = defaultCols;
-        setRouteQuery(defaultCols)
-    }
-  }
   const setRouteQuery = (cols: number) => {
     router.push({query: {...route.query, grid: cols.toString()}})
-
   }
 
   const showGridPanel = () => {
@@ -39,7 +22,43 @@ export const useGridStore = defineStore('gridStore', () => {
     isGridPanelVisible.value = false;
   }
 
-  // const double = computed(() => counter.value * 2)
+  const setGalleryColumns = (cols: number) => {
+    switch (true) {
+      case (cols > 0 && cols <= 5):
+        columns.value = cols;
+        setRouteQuery(cols)
+        break;
+      default:
+        columns.value = defaultColumnNumber;
+        setRouteQuery(defaultColumnNumber)
+    }
+  }
+
+  const initGrid = () => {
+    switch (true) {
+      case $ua.isMobile:
+        console.log('device mobile');
+        hideGridPanel();
+        setGalleryColumns(1);
+        break;
+      case $ua.isTablet:
+        console.log('device tablet');
+        setGalleryColumns(defaultColumnNumber);
+        showGridPanel();
+        break;
+      default:
+        console.log('device desktop');
+        hideGridPanel();
+        setGalleryColumns(4);
+        break;
+    }
+  }
+
+  initGrid()
+
+
+
+
 
   return {
     columns,

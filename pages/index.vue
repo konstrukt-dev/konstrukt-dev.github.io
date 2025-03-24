@@ -4,6 +4,7 @@ import {useGridStore} from "~/stores/useGridStore";
 import type {Project} from "~/types/projects";
 import {toNumberSafe} from "~/utils/utils";
 import GalleryDetailView from "~/components/GalleryDetailView.vue";
+import { UAParser } from 'ua-parser-js';
 
 const gridStore = useGridStore();
 const {data} = useApi<Project[]>("/projects");
@@ -21,7 +22,6 @@ const openGalleryDetailView = (id: number) => {
   activeId.value = id
   isModalOpen.value = true;
 }
-
 gridStore.setGalleryColumns(toNumberSafe(route.query?.grid, 3))
 
 const getPosition = (id: number) => {

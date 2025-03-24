@@ -12,7 +12,9 @@ const {minimizeControlPanel, maximizeControlPanel} = useControlPanelStore();
 const {isControlPanelMinimized} = storeToRefs(useControlPanelStore());
 const {toggleTheme} = useThemeStore();
 const {isDarkMode} = storeToRefs(useThemeStore());
-const nuxtApp = useNuxtApp();
+const nuxtApp  = useNuxtApp();
+const { $ua } = useNuxtApp()
+
 const route = useRoute();
 let isGalleryRoute = ref(false);
 
@@ -20,30 +22,9 @@ nuxtApp.hooks.hook('page:finish', () => {
   isGalleryRoute.value = (route.path === '/');
 })
 
-onMounted(() => {
-  window.addEventListener("resize", updateWidth);
-});
 
-onUnmounted(() => {
-  window.removeEventListener("resize", updateWidth);
-})
 
-let isGridSelectVisible = true;
-updateWidth()
 
-function updateWidth() {
-  const breakpoint = 768;
-
-  if (window.innerWidth < breakpoint && isGridSelectVisible) {
-    isGridSelectVisible = false;
-    gridStore.hideGridPanel();
-    gridStore.setGalleryColumns(1);
-  } else if (window.innerWidth > breakpoint && !isGridSelectVisible) {
-    gridStore.setGalleryColumns(3);
-    isGridSelectVisible = true;
-    gridStore.showGridPanel();
-  }
-}
 </script>
 
 <template>
@@ -51,7 +32,6 @@ function updateWidth() {
     @mouseover="maximizeControlPanel()"
     @mouseleave="minimizeControlPanel()"
     class="panel"
-    :style="{ width: isControlPanelMinimized ? '40px' : '40vw' }"
   >
 
     <nav class="nav-bar">
