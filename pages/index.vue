@@ -13,6 +13,10 @@ const route = useRoute()
 let activeId = ref(0);
 let isModalOpen = ref(false)
 
+
+
+gridStore.initGrid();
+
 const closeModal = () => {
   isModalOpen.value = false;
 }
@@ -22,7 +26,6 @@ const openGalleryDetailView = (id: number) => {
   activeId.value = id
   isModalOpen.value = true;
 }
-gridStore.setGalleryColumns(toNumberSafe(route.query?.grid, 3))
 
 const getPosition = (id: number) => {
   let elId = `item-${id}`

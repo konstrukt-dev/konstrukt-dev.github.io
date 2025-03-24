@@ -12,8 +12,8 @@ const {minimizeControlPanel, maximizeControlPanel} = useControlPanelStore();
 const {isControlPanelMinimized} = storeToRefs(useControlPanelStore());
 const {toggleTheme} = useThemeStore();
 const {isDarkMode} = storeToRefs(useThemeStore());
-const nuxtApp  = useNuxtApp();
-const { $ua } = useNuxtApp()
+const nuxtApp = useNuxtApp();
+const {$ua} = useNuxtApp()
 
 const route = useRoute();
 let isGalleryRoute = ref(false);
@@ -21,21 +21,17 @@ let isGalleryRoute = ref(false);
 nuxtApp.hooks.hook('page:finish', () => {
   isGalleryRoute.value = (route.path === '/');
 })
-
-
-
-
 </script>
 
 <template>
   <div
-    @mouseover="maximizeControlPanel()"
-    @mouseleave="minimizeControlPanel()"
-    class="panel"
+      @mouseover="maximizeControlPanel()"
+      @mouseleave="minimizeControlPanel()"
+      :class="$ua.isMobile ? 'panel-mobile' : 'panel'"
   >
 
     <nav class="nav-bar">
-      <span class="logo">
+      <span :class="$ua.isMobile ? 'logo' : ''">
       <NuxtLink to="/"></NuxtLink>
       </span>
       <span>
@@ -54,26 +50,29 @@ nuxtApp.hooks.hook('page:finish', () => {
              :disabled="activeButton === Button.Grid2"
              @click="gridStore.setGalleryColumns(2); setActiveButton(Button.Grid2)">2
       </button>
-      <button
-        class="btn-nav"
-        :disabled="activeButton === Button.Grid3"
-        @click="gridStore.setGalleryColumns(3); setActiveButton(Button.Grid3)">3
-      </button>
 
-         <button
-           class="btn-nav"
-           :disabled="activeButton === Button.Grid4"
-           @click="gridStore.setGalleryColumns(4); setActiveButton(Button.Grid4)">
+     <template v-if="!$ua.isMobile">
+      <button
+          class="btn-nav"
+          :disabled="activeButton === Button.Grid3"
+          @click="gridStore.setGalleryColumns(3); setActiveButton(Button.Grid3)">3
+      </button>
+        <button
+            class="btn-nav"
+            :disabled="activeButton === Button.Grid4"
+            @click="gridStore.setGalleryColumns(4); setActiveButton(Button.Grid4)">
            {{ Button.Grid4 }}
       </button>
 
          <button
-           class="btn-nav"
-           :disabled="activeButton === Button.Grid5"
-           @click="gridStore.setGalleryColumns(5);
+             class="btn-nav"
+             :disabled="activeButton === Button.Grid5"
+             @click="gridStore.setGalleryColumns(5);
            setActiveButton(Button.Grid5)">{{ Button.Grid5 }}
       </button>
-      </span>
+      </template>
+              </span>
+
 
       <button class="btn-nav"
               @click="toggleTheme()">
@@ -92,8 +91,18 @@ nuxtApp.hooks.hook('page:finish', () => {
   border-radius: 40px;
 }
 
+.panel-mobile {
+  z-index: 100;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  background: #333;
+  padding: 10px;
+  height: 40px;
+}
+
 .panel {
-  z-index: 10000;
+  z-index: 100;
   /* width: 40vw;*/
   background: white;
   position: fixed;
@@ -105,11 +114,6 @@ nuxtApp.hooks.hook('page:finish', () => {
   border-radius: 60px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   overflow: hidden;
-  transition: width 1s;
-}
-
-.minimize {
-  /*width: 40px !important;*/
   transition: width 1s;
 }
 

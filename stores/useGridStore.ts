@@ -1,15 +1,33 @@
 import {defineStore} from "pinia";
+import {toNumberSafe} from "~/utils/utils";
+import {breakStatement} from "@babel/types";
 
 export const useGridStore = defineStore('gridStore', () => {
+  const defaultColumnNumber = 3;
+
   const { $ua } = useNuxtApp()
   const route = useRoute();
   const router = useRouter();
-  const columns = ref(3);
-  const isGridView = ref(true);
-  const isGalleryViewGrid = ref(true);
+  const columns = ref(defaultColumnNumber);
   const isGridPanelVisible = ref(true);
 
-  const defaultColumnNumber = 3;
+  const getColumnCountFromQuery = toNumberSafe(route.query?.grid, 3);
+
+  // gridStore.setGalleryColumns(toNumberSafe(route.query?.grid, 3))
+  if(getColumnCountFromQuery) {
+}
+
+/*
+wenn mobile dann 1
+
+wenn query und wert zwischen 1 und 5 und tablet und
+
+
+
+
+*/
+
+  console.log('query ',toNumberSafe(route.query?.grid, 3) )
 
   const setRouteQuery = (cols: number) => {
     router.push({query: {...route.query, grid: cols.toString()}})
@@ -23,15 +41,8 @@ export const useGridStore = defineStore('gridStore', () => {
   }
 
   const setGalleryColumns = (cols: number) => {
-    switch (true) {
-      case (cols > 0 && cols <= 5):
         columns.value = cols;
         setRouteQuery(cols)
-        break;
-      default:
-        columns.value = defaultColumnNumber;
-        setRouteQuery(defaultColumnNumber)
-    }
   }
 
   const initGrid = () => {
@@ -39,31 +50,30 @@ export const useGridStore = defineStore('gridStore', () => {
       case $ua.isMobile:
         console.log('device mobile');
         hideGridPanel();
-        setGalleryColumns(1);
+        columns.value = 1;
+        setRouteQuery(1)
+
         break;
       case $ua.isTablet:
         console.log('device tablet');
-        setGalleryColumns(defaultColumnNumber);
+        columns.value = defaultColumnNumber;
+        setRouteQuery(defaultColumnNumber)
+
         showGridPanel();
         break;
       default:
         console.log('device desktop');
         hideGridPanel();
-        setGalleryColumns(4);
+        columns.value = 4;
+        setRouteQuery(4)
+
         break;
     }
   }
 
-  initGrid()
-
-
-
-
-
   return {
+    initGrid,
     columns,
-    isGridView,
-    isGalleryViewGrid,
     isGridPanelVisible,
     showGridPanel,
     hideGridPanel,
