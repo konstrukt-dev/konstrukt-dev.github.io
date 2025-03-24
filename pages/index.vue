@@ -44,12 +44,10 @@ const getPosition = (id: number) => {
     bottom: 4
   }
 }
-
-
 </script>
 
 <template>
-  <div v-if="gridStore.isGalleryViewGrid">
+  <div>
     <div v-if="data?.length" class="grid-base" :class="`grid-${gridStore.columns}`">
       <div class="item" v-for="item in data" :key="item.id">
         <div :id="`item-${item.id}`">
@@ -71,11 +69,13 @@ const getPosition = (id: number) => {
       </div>
     </div>
   </div>
+  <!--
   <div v-if="!gridStore.isGalleryViewGrid">
     <div v-for="item in data" :key="item.id">
       <gallery-item-row :title="item.title" :description="item.description" :id="item.id"/>
     </div>
   </div>
+  -->
 </template>
 
 <style scoped>
@@ -89,6 +89,14 @@ const getPosition = (id: number) => {
   grid-auto-rows: 1fr;
   margin: 1px 0 0 1px;
 
+}
+
+.grid-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .grid-3 {

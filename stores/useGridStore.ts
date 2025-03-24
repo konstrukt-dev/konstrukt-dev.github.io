@@ -13,8 +13,8 @@ export const useGridStore = defineStore('gridStore', () => {
 
     switch (true) {
       case (cols === 0):
-        isGalleryViewGrid.value = false;
-        setRouteQuery(0)
+       // isGalleryViewGrid.value = false;
+      //  setRouteQuery(0)
         break;
       case (cols > 0 && cols <= 5):
         isGalleryViewGrid.value = true;

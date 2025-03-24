@@ -63,6 +63,17 @@ function updateWidth() {
       </span>
 
       <span v-if="isGalleryRoute">
+        <button class="btn-nav"
+                :disabled="activeButton === Button.Grid1"
+                @click="gridStore.setGalleryColumns(1);
+              setActiveButton(Button.Grid1)">
+        {{ Button.Grid1 }}
+      </button>
+         <button
+             class="btn-nav"
+             :disabled="activeButton === Button.Grid2"
+             @click="gridStore.setGalleryColumns(2); setActiveButton(Button.Grid2)">2
+      </button>
       <button
         class="btn-nav"
         :disabled="activeButton === Button.Grid3"
@@ -81,14 +92,6 @@ function updateWidth() {
            :disabled="activeButton === Button.Grid5"
            @click="gridStore.setGalleryColumns(5);
            setActiveButton(Button.Grid5)">{{ Button.Grid5 }}
-      </button>
-
-
-      <button class="btn-nav"
-              :disabled="activeButton === Button.List"
-              @click="gridStore.setGalleryColumns(0);
-              setActiveButton(Button.List)">
-        {{ Button.List }}
       </button>
       </span>
 

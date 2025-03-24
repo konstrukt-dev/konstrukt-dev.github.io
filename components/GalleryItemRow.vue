@@ -16,8 +16,9 @@ defineProps({
 <style>
 .row {
   padding: 10px;
-  margin: 10px;
+  margin: 1px;
   background: var(--bg-tile);
+  border-radius: 5px;
 }
 
 [data-theme="dark"] {
