@@ -9,7 +9,6 @@ const gridStore = useGridStore();
 const {setActiveButton} = useActiveButton();
 const {activeButton} = storeToRefs(useActiveButton());
 const {minimizeControlPanel, maximizeControlPanel} = useControlPanelStore();
-const {isControlPanelMinimized} = storeToRefs(useControlPanelStore());
 const {toggleTheme} = useThemeStore();
 const {isDarkMode} = storeToRefs(useThemeStore());
 const nuxtApp = useNuxtApp();
@@ -41,33 +40,34 @@ nuxtApp.hooks.hook('page:finish', () => {
       <span v-if="isGalleryRoute">
         <button class="btn-nav"
                 :disabled="activeButton === Button.Grid1"
-                @click="gridStore.setGalleryColumns(1);
+                @click="gridStore.setGrid(1);
               setActiveButton(Button.Grid1)">
         {{ Button.Grid1 }}
       </button>
          <button
              class="btn-nav"
              :disabled="activeButton === Button.Grid2"
-             @click="gridStore.setGalleryColumns(2); setActiveButton(Button.Grid2)">2
+             @click="gridStore.setGrid(2); setActiveButton(Button.Grid2)">2
       </button>
 
      <template v-if="!$ua.isMobile">
       <button
           class="btn-nav"
           :disabled="activeButton === Button.Grid3"
-          @click="gridStore.setGalleryColumns(3); setActiveButton(Button.Grid3)">3
+          @click="gridStore.setGrid(3); setActiveButton(Button.Grid3)">
+        {{ Button.Grid3 }}
       </button>
         <button
             class="btn-nav"
             :disabled="activeButton === Button.Grid4"
-            @click="gridStore.setGalleryColumns(4); setActiveButton(Button.Grid4)">
+            @click="gridStore.setGrid(4); setActiveButton(Button.Grid4)">
            {{ Button.Grid4 }}
       </button>
 
          <button
              class="btn-nav"
              :disabled="activeButton === Button.Grid5"
-             @click="gridStore.setGalleryColumns(5);
+             @click="gridStore.setGrid(5);
            setActiveButton(Button.Grid5)">{{ Button.Grid5 }}
       </button>
       </template>

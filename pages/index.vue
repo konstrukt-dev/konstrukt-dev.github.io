@@ -2,20 +2,13 @@
 import GalleryItemTile from "~/components/GalleryItemTile.vue";
 import {useGridStore} from "~/stores/useGridStore";
 import type {Project} from "~/types/projects";
-import {toNumberSafe} from "~/utils/utils";
 import GalleryDetailView from "~/components/GalleryDetailView.vue";
-import { UAParser } from 'ua-parser-js';
 
 const gridStore = useGridStore();
 const {data} = useApi<Project[]>("/projects");
-const route = useRoute()
 
 let activeId = ref(0);
 let isModalOpen = ref(false)
-
-
-
-gridStore.initGrid();
 
 const closeModal = () => {
   isModalOpen.value = false;
@@ -25,27 +18,6 @@ const openGalleryDetailView = (id: number) => {
   console.log('id ', id)
   activeId.value = id
   isModalOpen.value = true;
-}
-
-const getPosition = (id: number) => {
-  let elId = `item-${id}`
-  let elem = document.getElementById(elId);
-
-  if (elem) {
-  }
-  /*
-   let rec = elem.getBoundingClientRect();
-     console.log('Top:', rect.top)
-     console.log('Left:', rect.left)
-     console.log('Breite:', rect.width)
-     console.log('Höhe:', rect.height)
-   }*/
-  return {
-    top: 1,
-    left: 2,
-    right: 3,
-    bottom: 4
-  }
 }
 </script>
 
@@ -72,13 +44,6 @@ const getPosition = (id: number) => {
       </div>
     </div>
   </div>
-  <!--
-  <div v-if="!gridStore.isGalleryViewGrid">
-    <div v-for="item in data" :key="item.id">
-      <gallery-item-row :title="item.title" :description="item.description" :id="item.id"/>
-    </div>
-  </div>
-  -->
 </template>
 
 <style scoped>

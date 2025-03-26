@@ -1,13 +1,15 @@
 import {defineStore} from "pinia";
-import {Button} from "~/enums.ts";
+import {useGridStore} from "~/stores/useGridStore";
 
-export const useActiveButton = defineStore("btn", {
-  state: (): { activeButton: string } => ({
-    activeButton: Button.Grid3, // default Button
-  }),
-  actions: {
-    setActiveButton(name: string) {
-      this.activeButton = name
+export const useActiveButton = defineStore("btn", () => {
+    const gridStore = useGridStore();
+
+    let activeButton = ref(gridStore.columns.toString());
+    const setActiveButton = (gridNumber: string) => {
+        activeButton.value = gridNumber;
     }
-  }
+    return {
+        activeButton,
+        setActiveButton,
+    }
 });

@@ -1,4 +1,4 @@
-export const toNumberSafe = (value: unknown, fallback = 0): number => {
+export const getParsedQueryGridNum = (value: unknown, fb = 0): number => {
   const n = Number(value);
-  return isNaN(n) ? fallback : n;
+  return (isNaN(n) && n < 1) ? fb : n;
 }

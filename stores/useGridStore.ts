@@ -1,82 +1,68 @@
 import {defineStore} from "pinia";
-import {toNumberSafe} from "~/utils/utils";
-import {breakStatement} from "@babel/types";
+import {getParsedQueryGridNum} from "~/utils/utils";
 
 export const useGridStore = defineStore('gridStore', () => {
-  const defaultColumnNumber = 3;
+    const defaultColumnNumber = 1;
 
-  const { $ua } = useNuxtApp()
-  const route = useRoute();
-  const router = useRouter();
-  const columns = ref(defaultColumnNumber);
-  const isGridPanelVisible = ref(true);
+    const {$ua} = useNuxtApp()
+    const route = useRoute();
+    const router = useRouter();
+    const columns = ref(1);
+    const isGridPanelVisible = ref(true);
 
-  const getColumnCountFromQuery = toNumberSafe(route.query?.grid, 3);
+    setGridFromQuery();
 
-  // gridStore.setGalleryColumns(toNumberSafe(route.query?.grid, 3))
-  if(getColumnCountFromQuery) {
-}
-
-/*
-wenn mobile dann 1
-
-wenn query und wert zwischen 1 und 5 und tablet und
-
-
-
-
-*/
-
-  console.log('query ',toNumberSafe(route.query?.grid, 3) )
-
-  const setRouteQuery = (cols: number) => {
-    router.push({query: {...route.query, grid: cols.toString()}})
-  }
-
-  const showGridPanel = () => {
-    isGridPanelVisible.value = true;
-  }
-  const hideGridPanel = () => {
-    isGridPanelVisible.value = false;
-  }
-
-  const setGalleryColumns = (cols: number) => {
+    function setGrid(cols: number) {
         columns.value = cols;
-        setRouteQuery(cols)
-  }
-
-  const initGrid = () => {
-    switch (true) {
-      case $ua.isMobile:
-        console.log('device mobile');
-        hideGridPanel();
-        columns.value = 1;
-        setRouteQuery(1)
-
-        break;
-      case $ua.isTablet:
-        console.log('device tablet');
-        columns.value = defaultColumnNumber;
-        setRouteQuery(defaultColumnNumber)
-
-        showGridPanel();
-        break;
-      default:
-        console.log('device desktop');
-        hideGridPanel();
-        columns.value = 4;
-        setRouteQuery(4)
-
-        break;
+        router.push({query: {...route.query, grid: cols.toString()}})
     }
-  }
 
-  return {
-    initGrid,
-    columns,
-    isGridPanelVisible,
-    showGridPanel,
-    hideGridPanel,
-    setGalleryColumns
-  }
+    const showGridPanel = () => {
+        isGridPanelVisible.value = true;
+    }
+    const hideGridPanel = () => {
+        isGridPanelVisible.value = false;
+    }
+
+    const setGalleryColumns = (cols: number) => {
+        columns.value = cols;
+        setGrid(cols)
+    }
+
+    function setGridFromQuery() {
+        const c: number = getParsedQueryGridNum(route.query?.grid, 1);
+        const cMaxMobile = 2;
+        const cMaxTablet = 3;
+        const cMaxDesktop = 5;
+
+        switch (true) {
+            case ($ua.isMobile && c <= cMaxMobile):
+                setGrid(c)
+                break;
+            case $ua.isMobile:
+                setGrid(1)
+                break;
+            case $ua.isTablet && c <= cMaxTablet:
+                setGrid(c)
+                break;
+            case $ua.isTablet:
+                setGrid(3)
+                break;
+            case c <= cMaxDesktop:
+                setGrid(c)
+                break;
+            default:
+                setGrid(4)
+                break;
+        }
+    }
+
+    return {
+        setGrid,
+        columns,
+        isGridPanelVisible,
+        showGridPanel,
+        hideGridPanel,
+        setGalleryColumns
+    }
 })
