@@ -2,8 +2,6 @@ import {defineStore} from "pinia";
 import {getParsedQueryGridNum} from "~/utils/utils";
 
 export const useGridStore = defineStore('gridStore', () => {
-    const defaultColumnNumber = 1;
-
     const {$ua} = useNuxtApp()
     const route = useRoute();
     const router = useRouter();
@@ -22,11 +20,6 @@ export const useGridStore = defineStore('gridStore', () => {
     }
     const hideGridPanel = () => {
         isGridPanelVisible.value = false;
-    }
-
-    const setGalleryColumns = (cols: number) => {
-        columns.value = cols;
-        setGrid(cols)
     }
 
     function setGridFromQuery() {
@@ -62,7 +55,6 @@ export const useGridStore = defineStore('gridStore', () => {
         columns,
         isGridPanelVisible,
         showGridPanel,
-        hideGridPanel,
-        setGalleryColumns
+        hideGridPanel
     }
 })
